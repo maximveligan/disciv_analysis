@@ -1,0 +1,133 @@
+{
+	"7531": {
+		"name": "Rampart",
+		"cooldown": 90000,
+		"statusesApplied": ["RAMPART"]
+	},
+
+	"7540": {
+		"name": "Low Blow",
+		"cooldown": 25000
+	},
+
+	"7533": {
+		"name": "Provoke",
+		"cooldown": 30000
+	},
+
+	"7535": {
+		"name": "Reprisal",
+		"cooldown": 60000,
+		"statusesApplied": ["REPRISAL"]
+	},
+
+	"7538": {
+		"name": "Interject",
+		"cooldown": 30000
+	},
+
+	"7537": {
+		"name": "Shirk",
+		"cooldown": 120000
+	},
+
+	"7568": {
+		"name": "Esuna",
+		"onGcd": true,
+		"cooldown": 2500,
+		"castTime": 1000,
+		"mpCost": 600,
+		"mpCostFactor": 5
+	},
+
+	"7562": {
+		"name": "Lucid Dreaming",
+		"cooldown": 60000,
+		"statusesApplied": ["LUCID_DREAMING"]
+	},
+
+	"7561": {
+		"name": "Swiftcast",
+		"cooldown": 60000,
+		"statusesApplied": ["SWIFTCAST"]
+	},
+
+	"7559": {
+		"name": "Surecast",
+		"cooldown": 120000,
+		"statusesApplied": ["SURECAST"]
+	},
+
+	"7571": {
+		"name": "Rescue",
+		"cooldown": 120000
+	},
+
+	"7541": {
+		"name": "Second Wind",
+		"cooldown": 120000
+	},
+
+	"7553": {
+		"name": "Foot Graze",
+		"cooldown": 30000
+	},
+
+	"7554": {
+		"name": "Leg Graze",
+		"cooldown": 30000
+	},
+
+	"7557": {
+		"name": "Peloton",
+		"cooldown": 5000
+	},
+
+	"7551": {
+		"name": "Head Graze",
+		"cooldown": 30000
+	},
+
+	"7560": {
+		"name": "Addle",
+		"cooldown": 90000,
+		"statusesApplied": ["ADDLE"]
+	},
+	"25880": {
+		"name": "Sleep",
+		"onGcd": true,
+		"speedAttribute": "SPS",
+		"castTime": 2500,
+		"mpCost": 800
+	},
+
+	"7548": {
+		"name": "Arm\"s Length",
+		"cooldown": 120000,
+		"statusesApplied": ["ARMS_LENGTH"]
+	},
+
+	"7863": {
+		"name": "Leg Sweep",
+		"cooldown": 40000
+	},
+
+	"7542": {
+		"name": "Bloodbath",
+		"cooldown": 90000,
+		"statusesApplied": ["BLOODBATH"]
+	},
+
+	"7549": {
+		"name": "Feint",
+		"cooldown": 90000,
+		"statusesApplied": ["FEINT"]
+	},
+
+	"7546": {
+		"name": "True North",
+		"cooldown": 45000,
+		"charges": 2,
+		"statusesApplied": ["TRUE_NORTH"]
+	}
+}

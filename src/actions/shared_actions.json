@@ -1,0 +1,18 @@
+{
+    "0": {
+		"name": "Unknown",
+		"cooldown": 2500,
+		"statusesApplied": []
+	},
+	"3": {
+		"name": "Sprint"
+	},
+	"7": {
+		"name": "Attack",
+		"autoAttack": true
+	},
+	"8": {
+		"name": "Shot",
+		"autoAttack": true
+	}
+}

@@ -1,0 +1,241 @@
+{
+    "actions": {
+	    "142": {
+	    	"name": "Blizzard",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 400
+	    },
+	    "25793": {
+	    	"name": "Blizzard II",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3000,
+	    	"mpCost": 800
+	    },
+	    "154": {
+	    	"name": "Blizzard III",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3500,
+	    	"mpCost": 800
+	    },
+	    "3576": {
+	    	"name": "Blizzard IV",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 800
+	    },
+	    "159": {
+	    	"name": "Freeze",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2800,
+	    	"mpCost": 1000
+	    },
+	    "16506": {
+	    	"name": "Umbral Soul",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS"
+	    },
+	    "141": {
+	    	"name": "Fire",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 800
+	    },
+	    "147": {
+	    	"name": "Fire II",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3000,
+	    	"mpCost": 1500
+	    },
+	    "152": {
+	    	"name": "Fire III",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3500,
+	    	"mpCost": 2000
+	    },
+	    "3577": {
+	    	"name": "Fire IV",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2800,
+	    	"mpCost": 800
+	    },
+	    "162": {
+	    	"name": "Flare",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 4000
+	    },
+	    "16505": {
+	    	"name": "Despair",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3000
+	    },
+	    "144": {
+	    	"name": "Thunder",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 200,
+	    	"statusesApplied": ["THUNDER_I"]
+	    },
+	    "7447": {
+	    	"name": "Thunder II",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 400,
+	    	"statusesApplied": ["THUNDER_II"]
+	    },
+	    "153": {
+	    	"name": "Thunder III",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 400,
+	    	"statusesApplied": ["THUNDER_III"]
+	    },
+	    "7420": {
+	    	"name": "Thunder IV",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 800,
+	    	"statusesApplied": ["THUNDER_IV"]
+	    },
+	    "156": {
+	    	"name": "Scathe",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"mpCost": 800
+	    },
+	    "7422": {
+	    	"name": "Foul",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS"
+	    },
+	    "16507": {
+	    	"name": "Xenoglossy",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS"
+	    },
+	    "149": {
+	    	"name": "Transpose",
+	    	"cooldown": 8000
+	    },
+	    "158": {
+	    	"name": "Manafont",
+	    	"cooldown": 120000
+	    },
+	    "157": {
+	    	"name": "Manaward",
+	    	"cooldown": 120000,
+	    	"statusesApplied": ["MANAWARD"]
+	    },
+	    "155": {
+	    	"name": "Aetherial Manipulation",
+	    	"cooldown": 10000
+	    },
+	    "3573": {
+	    	"name": "Ley Lines",
+	    	"cooldown": 120000,
+	    	"statusesApplied": ["LEY_LINES"]
+	    },
+	    "3574": {
+	    	"name": "Sharpcast",
+	    	"cooldown": 30000,
+	    	"statusesApplied": ["SHARPCAST"],
+	    	"charges": 2
+	    },
+	    "7419": {
+	    	"name": "Between the Lines",
+	    	"cooldown": 3000
+	    },
+	    "7421": {
+	    	"name": "Triplecast",
+	    	"cooldown": 60000,
+	    	"statusesApplied": ["TRIPLECAST"],
+	    	"charges": 2
+	    },
+	    "25794": {
+	    	"name": "High Fire II",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3000,
+	    	"mpCost": 1500
+	    },
+	    "25795": {
+	    	"name": "High Blizzard II",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 3000,
+	    	"mpCost": 800
+	    },
+	    "25796": {
+	    	"name": "Amplifier",
+	    	"cooldown": 120000
+	    },
+	    "25797": {
+	    	"name": "Paradox",
+	    	"onGcd": true,
+	    	"speedAttribute": "SPS",
+	    	"castTime": 2500,
+	    	"mpCost": 1600
+	    }
+    },
+    "statuses": {
+	    "161": {
+	    	"name": "Thunder"
+	    },
+	    "162": {
+	    	"name": "Thunder II"
+	    },
+	    "163": {
+	    	"name": "Thunder III",
+	    	"duration": 30000
+	    },
+	    "1210": {
+	    	"name": "Thunder IV",
+	    	"duration": 18000
+	    },
+	    "1211": {
+	    	"name": "Triplecast"
+	    },
+	    "165": {
+	    	"name": "Firestarter",
+	    	"duration": 30000
+	    },
+	    "164": {
+	    	"name": "Thundercloud",
+	    	"duration": 40000
+	    },
+	    "737": {
+	    	"name": "Ley Lines",
+	    	"duration": 30000
+	    },
+	    "738": {
+	    	"name": "Circle Of Power",
+	    	"speedModifier": 0.85
+	    },
+	    "867": {
+	    	"name": "Sharpcast",
+	    	"duration": 30000
+	    },
+	    "168": {
+	    	"name": "Manaward",
+	    	"duration": 20000
+	    },
+	    "2960": {
+	    	"name": "Enhanced Flare"
+	    }
+    }
+}

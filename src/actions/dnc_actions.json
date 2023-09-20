@@ -1,0 +1,327 @@
+{
+    "actions": {
+    	"16003": {
+    		"name": "Standard Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16191": {
+    		"name": "Single Standard Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16192": {
+    		"name": "Double Standard Finish",
+    		"onGcd": true,
+    		"cooldown": 1500,
+    		"statusesApplied": [
+    			"STANDARD_FINISH",
+    			"STANDARD_FINISH_PARTNER",
+    			"ESPRIT"
+    		]
+    	},
+    	"16004": {
+    		"name": "Technical Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16193": {
+    		"name": "Single Technical Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16194": {
+    		"name": "Double Technical Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16195": {
+    		"name": "Triple Technical Finish",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"16196": {
+    		"name": "Quadruple Technical Finish",
+    		"onGcd": true,
+    		"cooldown": 1500,
+    		"statusesApplied": [
+    			"TECHNICAL_FINISH",
+    			"ESPRIT_TECHNICAL",
+    			"FLOURISHING_FINISH"
+    		]
+    	},
+    	"25790": {
+    		"name": "Tillana",
+    		"onGcd": true,
+    		"cooldown": 1500
+    	},
+    	"15989": {
+    		"name": "Cascade",
+    		"onGcd": true,
+    		"speedAttribute": "SKS",
+    		"combo": {
+    			"start": true
+    		},
+    		"statusesApplied": ["SILKEN_SYMMETRY"]
+    	},
+    	"15990": {
+    		"name": "Fountain",
+    		"onGcd": true,
+    		"speedAttribute": "SKS",
+    		"combo": {
+    			"from": 15989,
+    			"end": true
+    		},
+    		"statusesApplied": ["SILKEN_FLOW"]
+    	},
+    	"15991": {
+    		"name": "Reverse Cascade",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"15992": {
+    		"name": "Fountainfall",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"15993": {
+    		"name": "Windmill",
+    		"onGcd": true,
+    		"speedAttribute": "SKS",
+    		"combo": {
+    			"start": true
+    		},
+    		"statusesApplied": ["SILKEN_SYMMETRY"]
+    	},
+    	"15994": {
+    		"name": "Bladeshower",
+    		"onGcd": true,
+    		"speedAttribute": "SKS",
+    		"combo": {
+    			"from": 15993,
+    			"end": true
+    		},
+    		"statusesApplied": ["SILKEN_FLOW"]
+    	},
+    	"15995": {
+    		"name": "Rising Windmill",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"15996": {
+    		"name": "Bloodshower",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"15997": {
+    		"name": "Standard Step",
+    		"onGcd": true,
+    		"cooldown": 30000,
+    		"gcdRecast": 1500,
+    		"statusesApplied": ["STANDARD_STEP"]
+    	},
+    	"15998": {
+    		"name": "Technical Step",
+    		"onGcd": true,
+    		"cooldown": 120000,
+    		"gcdRecast": 1500,
+    		"statusesApplied": ["TECHNICAL_STEP"]
+    	},
+    	"15999": {
+    		"name": "Emboite",
+    		"onGcd": true,
+    		"cooldown": 1000
+    	},
+    	"16000": {
+    		"name": "Entrechat",
+    		"onGcd": true,
+    		"cooldown": 1000
+    	},
+    	"16001": {
+    		"name": "Jete",
+    		"onGcd": true,
+    		"cooldown": 1000
+    	},
+    	"16002": {
+    		"name": "Pirouette",
+    		"onGcd": true,
+    		"cooldown": 1000
+    	},
+    	"16005": {
+    		"name": "Saber Dance",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"16006": {
+    		"name": "Closed Position",
+    		"onGcd": false,
+    		"cooldown": 30000
+    	},
+    	"16007": {
+    		"name": "Fan Dance",
+    		"onGcd": false,
+    		"cooldown": 1000,
+    		"statusesApplied": ["THREEFOLD_FAN_DANCE"]
+    	},
+    	"16008": {
+    		"name": "Fan Dance II",
+    		"onGcd": false,
+    		"cooldown": 1000,
+    		"statusesApplied": ["THREEFOLD_FAN_DANCE"]
+    	},
+    	"16009": {
+    		"name": "Fan Dance III",
+    		"onGcd": false,
+    		"cooldown": 1000
+    	},
+    	"25791": {
+    		"name": "Fan Dance IV",
+    		"onGcd": false,
+    		"cooldown": 1000
+    	},
+    	"16010": {
+    		"name": "En Avant",
+    		"onGcd": false,
+    		"cooldown": 30000,
+    		"charges": 3
+    	},
+    	"16011": {
+    		"name": "Devilment",
+    		"onGcd": false,
+    		"cooldown": 120000,
+    		"statusesApplied": ["DEVILMENT", "FLOURISHING_STARFALL"]
+    	},
+    	"25792": {
+    		"name": "Starfall Dance",
+    		"onGcd": true,
+    		"speedAttribute": "SKS"
+    	},
+    	"16012": {
+    		"name": "Shield Samba",
+    		"onGcd": false,
+    		"cooldown": 90000,
+    		"statusesApplied": ["SHIELD_SAMBA"]
+    	},
+    	"16013": {
+    		"name": "Flourish",
+    		"onGcd": false,
+    		"cooldown": 60000,
+    		"statusesApplied": [
+    			"SILKEN_SYMMETRY",
+    			"SILKEN_FLOW",
+    			"THREEFOLD_FAN_DANCE",
+    			"FOURFOLD_FAN_DANCE"
+    		]
+    	},
+    	"16014": {
+    		"name": "Improvisation",
+    		"onGcd": false,
+    		"cooldown": 120000,
+    		"statusesApplied": [
+    			"IMPROVISATION",
+    			"IMPROVISATION_REGEN",
+    			"RISING_RHYTHM"
+    		]
+    	},
+    	"25789": {
+    		"name": "Improvised Finish",
+    		"onGcd": false,
+    		"cooldown": 120000,
+    		"statusesApplied": ["IMPROVISED_FINISH"]
+    	},
+    	"16015": {
+    		"name": "Curing Waltz",
+    		"onGcd": false,
+    		"cooldown": 60000
+    	},
+    	"18073": {
+    		"name": "Ending",
+    		"onGcd": false,
+    		"cooldown": 1000
+    	}
+    },
+    "statuses": {
+	    "2693": {
+	    	"name": "Flourishing Symmetry",
+	    	"duration": 30000
+	    },
+	    "2694": {
+	    	"name": "Flourishing Flow",
+	    	"duration": 30000
+	    },
+	    "1820,": {
+	    	"name": "Threefold Fan Dance",
+	    	"duration": 30000
+	    },
+	    "2699": {
+	    	"name": "Fourfold Fan Dance",
+	    	"duration": 30000
+	    },
+	    "2700": {
+	    	"name": "Flourishing Starfall",
+	    	"duration": 20000
+	    },
+	    "1818": {
+	    	"name": "Standard Step",
+	    	"duration": 15000
+	    },
+	    "1819": {
+	    	"name": "Technical Step",
+	    	"duration": 15000
+	    },
+	    "1821": {
+	    	"name": "Standard Finish",
+	    	"duration": 60000
+	    },
+	    "1822": {
+	    	"name": "Technical Finish",
+	    	"duration": 20000
+	    },
+	    "2698,": {
+	    	"name": "Flourishing Finish",
+	    	"duration": 30000
+	    },
+	    "1823,": {
+	    	"name": "Closed Position"
+	    },
+	    "1824": {
+	    	"name": "Dance Partner"
+	    },
+	    "1825,": {
+	    	"name": "Devilment",
+	    	"duration": 20000
+	    },
+	    "1826": {
+	    	"name": "Shield Samba",
+	    	"duration": 15000
+	    },
+	    "1827": {
+	    	"name": "Improvisation",
+	    	"duration": 15000
+	    },
+	    "2696": {
+	    	"name": "Rising Rhythm",
+	    	"duration": 15000
+	    },
+	    "2695": {
+	    	"name": "Improvisation",
+	    	"duration": 15000
+	    },
+	    "2697": {
+	    	"name": "Improvised Finish",
+	    	"duration": 30000
+	    },
+	    "1847": {
+	    	"name": "Esprit",
+	    	"duration": 60000
+	    },
+	    "1848": {
+	    	"name": "Esprit",
+	    	"duration": 20000
+	    },
+	    "2105": {
+	    	"name": "Standard Finish",
+	    	"duration": 60000
+	    }
+    }
+}
