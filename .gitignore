@@ -1,4 +1,6 @@
-./src/data.json
-./src/users.json
-./src/__pycache__/
-./src/fflogs_bot/
+/src/data.json
+/src/users.json
+__pycache__/
+/src/fflogs_bot/
+/xiv_analysis/Cargo.lock
+/xiv_analysis/target/
