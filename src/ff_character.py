@@ -21,6 +21,9 @@ class Character:
             "lodestone_id": self.lodestone_id,
         }
 
+    def name(self):
+        return self.firstname + " " + self.lastname
+
     @staticmethod
     def from_dict(prim_dict):
         return Character(

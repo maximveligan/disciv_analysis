@@ -1,7 +1,6 @@
 import json
 import requests as reqs
 import logging
-import typing
 
 TOKEN_URL = "https://www.fflogs.com/oauth/token"
 GQL_URL = "https://www.fflogs.com/api/v2/client"
@@ -24,11 +23,11 @@ def fflogs_req(query):
     logging.debug(tmp)
     return tmp["data"]
 
-def get_character_id(username: str, world: str, region: str) -> int:
+def get_character_id(name: str, world: str, region: str) -> int:
     query = f"""
     query {{
         characterData {{
-    		character(name: "{username}", serverSlug: "{world}", serverRegion: "{region}") {{
+    		character(name: "{name}", serverSlug: "{world}", serverRegion: "{region}") {{
     			canonicalID
     		}}
     	}}
@@ -66,7 +65,8 @@ def get_fighter_info(code, fight_id, username):
     }}
     }}
     """
-    comp = fflogs_req(query)["reportData"]["report"]["table"]["data"]["composition"]
+    comp = fflogs_req(
+        query)["reportData"]["report"]["table"]["data"]["composition"]
     for c in comp:
         if c['name'] == username:
             return c
@@ -110,7 +110,8 @@ def get_encounter_id(code: str, fight_id: int):
     }}
     }}
     """
-    return fflogs_req(query)["reportData"]["report"]["fights"][0]["encounterID"]
+    return fflogs_req(
+        query)["reportData"]["report"]["fights"][0]["encounterID"]
 
 def get_top_rankers(encounter_id: int, metric: str, job: str):
     query = f"""
@@ -122,7 +123,8 @@ def get_top_rankers(encounter_id: int, metric: str, job: str):
 		}}
 	}}
 	"""
-    return fflogs_req(query)["worldData"]["encounter"]["characterRankings"]["rankings"][:10]
+    return fflogs_req(
+        query)["worldData"]["encounter"]["characterRankings"]["rankings"][:10]
 
 def get_latest_fight_report(c_id: int, encounter_id: int):
     query = f'''
@@ -134,7 +136,8 @@ def get_latest_fight_report(c_id: int, encounter_id: int):
     }}
     }}
     '''
-    rankings = fflogs_req(query)["characterData"]["character"]["encounterRankings"]["ranks"]
+    rankings = fflogs_req(
+        query)["characterData"]["character"]["encounterRankings"]["ranks"]
     start_time = 0
     tmp_rank = {}
     for rank in rankings:
@@ -144,6 +147,23 @@ def get_latest_fight_report(c_id: int, encounter_id: int):
             tmp_rank = rank
 
     return tmp_rank
+
+def get_highest_fight_report(c_id: int, encounter_id: int):
+    query = f'''
+    query {{
+    characterData {{
+        character(id: {c_id}) {{
+            encounterRankings(encounterID: {encounter_id}) 
+        }}
+    }}
+    }}
+    '''
+    rankings = fflogs_req(
+        query)["characterData"]["character"]["encounterRankings"]["ranks"]
+    if not rankings:
+        return {}
+    else:
+        return rankings[0]
 
 def get_events(code: str, fight_id: int, source_id: int):
     query = f'''

@@ -4,3 +4,6 @@ __pycache__/
 /src/fflogs_bot/
 /xiv_analysis/Cargo.lock
 /xiv_analysis/target/
+/src/resources/
+/src/random_tests.py
+/src/cached_analysis/
