@@ -10,8 +10,8 @@ import fflogs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-import time
 from bs4 import BeautifulSoup
+from sys import platform
 
 USERS_PATH = "./users.json"
 
@@ -31,10 +31,13 @@ class Bothry(commands.Cog):
                 self.users[disc_id] = User.from_dict(disc_id, user_data)
 
     def init_browser(self):
-        options = Options()
-        options.binary_location = "C:\\Users\\maxim\\Downloads\\chrome-win64\\chrome.exe"
-        service = Service("C:\\Users\\maxim\\dev\\executables\\chromedriver.exe")
-        self.browser = webdriver.Chrome(options=options, service=service)
+        if "win" in platform:
+            options = Options()
+            options.binary_location = "C:\\Users\\maxim\\Downloads\\chrome-win64\\chrome.exe"
+            service = Service("C:\\Users\\maxim\\dev\\executables\\chromedriver.exe")
+            self.browser = webdriver.Chrome(options=options, service=service)
+        else:
+            self.browser = webdriver.Chrome()
 
     @staticmethod
     def parse_name_from_args(arg: str):
@@ -151,20 +154,17 @@ class Bothry(commands.Cog):
         else:
             raise utils.UnregisteredUser
 
-    async def get_fight_info(self, ctx, arg, sort_string, character_name=""):
-        fightname, analysis = (None, None)
+    async def get_fight_info(self, ctx, arg, sort_string):
+        encounter, analysis, name, job = Bothry.parse_args(arg)
 
-        if arg is not None:
-            fightname, analysis = Bothry.parse_fightname_analysis(arg)
-
-        character: Character = self.get_character(ctx, character_name)
+        character: Character = self.get_character(ctx, name)
 
         fight_info, encounter = bot_backend.get_sorted_fight(
-            fightname, character.fflogs_id, sort_string)
+            encounter, character.fflogs_id, sort_string)
 
         if not fight_info:
             raise utils.EncounterNotFound(
-                f"Did not find any logs for {fightname.name}.")
+                f"Did not find any logs for {encounter.name}.")
 
         msg, color = bot_backend.format_fight_message(
             fight_info, character.name(), encounter)
@@ -189,7 +189,6 @@ class Bothry(commands.Cog):
 
     @commands.command()
     async def fight(self, ctx, url):
-        
         pass
 
     @commands.command()

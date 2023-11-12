@@ -262,8 +262,8 @@ def parse_code_from_url(url: str):
     return url_suffix.split("#")[0]
 
 def gen_xivanalysis_url(code: str, fight_id: int, source_id: int):
-    return f"http://localhost:3000/fflogs/{code}/{fight_id}/{source_id}"
-    # return f"https://xivanalysis.com/fflogs/{code}/{fight_id}/{source_id}"
+    # return f"http://localhost:3000/fflogs/{code}/{fight_id}/{source_id}"
+    return f"https://xivanalysis.com/fflogs/{code}/{fight_id}/{source_id}"
 
 def gen_report_url(code: str, fight_id: int):
     return f"https://www.fflogs.com/reports/{code}#fight={fight_id}&type=damage-done"
