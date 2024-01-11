@@ -12,6 +12,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 from sys import platform
+import discord
+import time
 
 USERS_PATH = "./users.json"
 
@@ -75,6 +77,10 @@ class Bothry(commands.Cog):
         encounter = None
         analysis = False
         job = None
+
+        if not arg:
+            return encounter, analysis, "", job
+
         args, name = Bothry.parse_name_from_args(arg)
         potential_errors = []
 
@@ -218,6 +224,33 @@ class Bothry(commands.Cog):
         await ctx.send(embed=analysis_result)
 
     @commands.command()
+    async def test(self, ctx):
+        test_logs = {
+            "blm_log_url": "https://xivanalysis.com/fflogs/tzWm98Pa31khHRNY/1/10",
+            "rdm_log_url": "https://xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/1559",
+            "smn_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/1",
+            "dnc_log_url": "https://xivanalysis.com/fflogs/k7VvHCP38rqDFfQm/17/201",
+            "brd_log_url": "https://xivanalysis.com/fflogs/mjcBPQRw3DW2rnzG/8/300",
+            "mch_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/7",
+            "rpr_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/7",
+            "drg_log_url": "https://xivanalysis.com/fflogs/qfRP2HyVw7xN98kC/1/2",
+            "sam_log_url": "https://xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/1",
+            "nin_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/3",
+            "mnk_log_url": "https://xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/335",
+            "war_log_url": "https://xivanalysis.com/fflogs/T9KZGQRV2FfAgbYB/5/2",
+            "gnb_log_url": "https://xivanalysis.com/fflogs/aqK1tYgzQZLBn76f/2/46",
+            "pld_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/2",
+            "drk_log_url": "https://xivanalysis.com/fflogs/2ATn1cQdWF9hvpZz/25/3",
+            "whm_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/3",
+            "ast_log_url": "https://xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/390",
+            "sge_log_url": "https://xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/4",
+            "sch_log_url": "https://xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/445",
+        }
+
+        for job, url in test_logs.items():
+            await self.debug(ctx, url)
+
+    @commands.command()
     async def latest(self, ctx, *, arg: Optional[str]):
         await self.get_fight_info(ctx, arg, "TIME")
 
@@ -250,15 +283,14 @@ class Bothry(commands.Cog):
 
     @commands.command()
     async def whoami(self, ctx):
-        print(ctx.message.author.name, ctx.message.author.id)
-
-        fflogs.get_character_id("Coldest Coffee", "Exodus", "na")
-
         user = self.get_character(ctx)
-        if user.firstname == "Wrika":
-            await ctx.send("My creator :pray:")
-        else:
-            await ctx.send(f"Hi {user.firstname} {user.lastname} :hearts:!")
+        await ctx.send(f"Hi {user.firstname} {user.lastname} :hearts:!")
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        channel = member.guild.system_channel
+        if channel is not None:
+            await channel.send(f'Welcome {member.mention}.')
 
     @whoami.error
     async def info_error(self, ctx, error):

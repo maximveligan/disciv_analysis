@@ -171,46 +171,48 @@ def pull_suggestions(soup: BeautifulSoup, embed: discord.Embed):
         if item.find("span"):
             alls = item.find_all("a", {"class": ["DbLink-module_link__2I_vM"]})
             for a in alls:
-                try:
-                    text = text.replace(a.text, utils.ABILITIES[a.text][0])
-                except KeyError as e:
-                    print(f"THERE'S NO EMOJI FOR {e}")
+                text = text.replace(a.text, utils.ABILITIES[a.text][0])
 
         if text.startswith("Morbid"):
-            morbid.append(text[6:])
+            suggestion = text[6:]
+            if suggestion not in morbid:
+                morbid.append(text[6:])
         elif text.startswith("Major"):
-            major.append(text[5:])
+            suggestion = text[5:]
+            if suggestion not in major:
+                major.append(text[5:])
         elif text.startswith("Medium"):
-            medium.append(text[6:])
+            suggestion = text[6:]
+            if suggestion not in medium:
+                medium.append(text[6:])
         elif text.startswith("Minor"):
-            minor.append(text[5:])
+            suggestion = text[5:]
+            if suggestion not in minor:
+                minor.append(text[5:])
 
-    suggestions_str = ""    
+    suggestions_str = ""
 
-    if morbid:
-        suggestions_str += "\n* **Morbid**"
-        for suggestion in morbid:
-            suggestions_str += f"\n * {suggestion}"
+    def suggestion_category(category: str, li):
+        acc_str = ""
+        if li:
+            acc_str += f"\n* **{category}**"
+            for suggestion in li:
+                acc_str += f"\n * {suggestion.rstrip('.')}"
+        
+        return acc_str
 
-    if major:
-        suggestions_str += "\n* **Major**"
-        for suggestion in major:
-            suggestions_str += f"\n * {suggestion}"
-
-    if medium:
-        suggestions_str += "\n* **Medium**"
-        for suggestion in medium:
-            suggestions_str += f"\n * {suggestion}"
-
-    if minor:
-        suggestions_str += "\n* **Minor**"
-        for suggestion in minor:
-            suggestions_str += f"\n * {suggestion}"
+    suggestions_str += suggestion_category("Morbid", morbid)
+    suggestions_str += suggestion_category("Major", major)
+    suggestions_str += suggestion_category("Medium", medium)
+    suggestions_str += suggestion_category("Minor", minor)
     
     if not minor and not medium and not major and not morbid:
         suggestions_str += "\n* No suggestions here!"
+
+    if len(suggestions_str) > 1024:
+        suggestions_str = suggestions_str[:1021] + "..."
     
-    embed.add_field(name="Suggestions", value=suggestions_str, inline=False)
+    embed.add_field(name="Suggestions", value=suggestions_str[:1024], inline=False)
 
 def pull_stats(soup: BeautifulSoup, embed: discord.Embed):
     stats_str = ""
@@ -231,13 +233,9 @@ def pull_defensives(soup: BeautifulSoup, embed: discord.Embed):
 
     for defensive in defensives:
         spl = defensive.text.split(" - ", 1)
-        try:
-            emoji = " " + utils.ABILITIES.get(spl[0], "")[0]
-            ability_id = str(utils.ABILITIES.get(spl[0], "")[1])
-            defensive_str += f"\n* [{spl[0]}](https://www.garlandtools.org/db/#action/{ability_id}){emoji}: {spl[1]}"
-        except IndexError:
-            print(f"THERE'S NO EMOJI FOR {spl[0]}, we also need the garlond code")
-            defensive_str += f"\n* {spl[0]}: {spl[1]}"
+        emoji = " " + utils.ABILITIES.get(spl[0], "")[0]
+        ability_id = str(utils.ABILITIES.get(spl[0], "")[1])
+        defensive_str += f"\n* [{spl[0]}](https://www.garlandtools.org/db/#action/{ability_id}){emoji}: {spl[1]}"
 
     embed.add_field(name="Defensives", value=defensive_str, inline=False)
 
