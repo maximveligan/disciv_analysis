@@ -114,28 +114,6 @@ class Bothry(commands.Cog):
 
         return encounter, analysis, name, job
 
-    @commands.command()
-    async def register(self, ctx, lodestone_str: str=""):
-        if not lodestone_str:
-            bio_code = "bothry-" + str(
-                sha256(str(ctx.message.author.id).encode('utf-8')).hexdigest())
-            await ctx.send(
-                "Input your character's lodestone URL to register. The first "
-                "character you register will be your primary character. Everything"
-                " else will be registered as an alt. To swap primary characters, "
-                "run `!register <lodesetone_url> primary`.\nYour lodestone code is"
-                f" `{bio_code}`")
-            return
-
-        else:
-            bot_backend.register(ctx.message.author.id, lodestone_str, self.users)
-
-
-        # @register.error
-        # async def register_error(ctx, e):
-        #     await ctx.send("The register command follows the following syntax: "
-        #                    f"`!register <lodestone_url>`. Got an error: {e}")
-
     def get_character(self, ctx, name=""):
         user_id = ctx.message.author.id 
         if user_id in self.users:
@@ -193,69 +171,148 @@ class Bothry(commands.Cog):
                 soup, analysis_url, color)
             await ctx.send(embed=analysis_result)
 
-    @commands.command()
-    async def fight(self, ctx, url):
-        pass
+    # @commands.command()
+    # async def debug(self, ctx, analysis_url):
+    #     if str(ctx.author) != "veligains" and str(ctx.author) != "velitest_48463":
+    #         await ctx.send("Debugging is only permitted by the server owner!")
+    #         return
+    #     code, fight_id, source_id = utils.analysis_url_to_parts(analysis_url)
+    #     soup = None
 
-    @commands.command()
-    async def debug(self, ctx, analysis_url):
-        if str(ctx.author) != "veli8008" and str(ctx.author) != "velitest_48463" and str(ctx.author) != "teiz":
-            await ctx.send("Debugging is only permitted by the server owner!")
+    #     filename = f"./cached_analysis/{code}_{fight_id}_{source_id}.html"
+
+    #     try:
+    #         with open(filename, "r", encoding="utf-8") as f:
+    #             soup = BeautifulSoup(f, "html.parser")
+    #     except Exception:
+    #         self.init_browser()
+    #         soup = bot_backend.get_analysis_page(analysis_url, self.browser)
+
+    #         with open(filename, "w", encoding="utf-8") as f:
+    #             f.write(str(soup))
+
+    #     analysis_result = bot_backend.get_analysis(
+    #         soup, analysis_url,
+    #         utils.ParseColor.ORANGE)
+
+    #     await ctx.send(embed=analysis_result)
+
+    # @commands.command()
+    # async def test(self, ctx):
+    #     test_logs = {
+    #         "blm_log_url": "https://endwalker.xivanalysis.com/fflogs/tzWm98Pa31khHRNY/1/10",
+    #         "rdm_log_url": "https://endwalker.xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/1559",
+    #         "smn_log_url": "https://endwalker.xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/1",
+    #         "dnc_log_url": "https://endwalker.xivanalysis.com/fflogs/k7VvHCP38rqDFfQm/17/201",
+    #         "brd_log_url": "https://endwalker.xivanalysis.com/fflogs/mjcBPQRw3DW2rnzG/8/300",
+    #         "mch_log_url": "https://endwalker.xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/7",
+    #         "rpr_log_url": "https://endwalker.xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/7",
+    #         "drg_log_url": "https://endwalker.xivanalysis.com/fflogs/qfRP2HyVw7xN98kC/1/2",
+    #         "sam_log_url": "https://endwalker.xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/1",
+    #         "nin_log_url": "https://endwalker.xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/3",
+    #         "mnk_log_url": "https://endwalker.xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/335",
+    #         "war_log_url": "https://endwalker.xivanalysis.com/fflogs/T9KZGQRV2FfAgbYB/5/2",
+    #         "gnb_log_url": "https://endwalker.xivanalysis.com/fflogs/aqK1tYgzQZLBn76f/2/46",
+    #         "pld_log_url": "https://endwalker.xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/2",
+    #         "drk_log_url": "https://endwalker.xivanalysis.com/fflogs/2ATn1cQdWF9hvpZz/25/3",
+    #         "whm_log_url": "https://endwalker.xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/3",
+    #         "ast_log_url": "https://endwalker.xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/390",
+    #         "sge_log_url": "https://endwalker.xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/4",
+    #         "sch_log_url": "https://endwalker.xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/445",
+    #     }
+
+    #     for job, url in test_logs.items():
+    #         await self.debug(ctx, url)
+
+    @commands.command(
+        brief="Register yourself as a new user",
+        description="Run the command with no URL first to get your "
+                    "registration code. Once you've put the code in your"
+                    " lodestone bio, rerun the register command with your "
+                    "lodestone URL.")
+    async def register(self, ctx, lodestone_url: str=commands.parameter(
+            default="", description="Your character's lodestone URL")):
+        if not lodestone_url:
+            bio_code = "bothry-" + str(
+                sha256(str(ctx.message.author.id).encode('utf-8')).hexdigest())
+
+            if ctx.message.author.id in self.users:
+                await ctx.send(
+                    f"Already registered {self.users[ctx.message.author.id]}.\n"
+                    "To register another character, rerun this command "
+                    "with `!register <character loadstone URL>` after adding\n"
+                    f"`{bio_code}` to the character's loadstone bio.")
+                return
+
+            await ctx.send(
+                "Input your character's lodestone URL to register. The first "
+                "character you register will be your primary character. Everything"
+                " else will be registered as an alt. To swap primary characters, "
+                "run `!register <lodesetone_url> primary`.\nYour lodestone code is"
+                f" `{bio_code}`. Rerun `!register` followed by your lodestone "
+                "URL once you've updated your bio to finish registration.")
             return
-        code, fight_id, source_id = utils.analysis_url_to_parts(analysis_url)
-        soup = None
 
-        filename = f".\\cached_analysis\\{code}_{fight_id}_{source_id}.txt"
+        else:
+            await ctx.send(bot_backend.register(ctx.message.author.id,
+                           lodestone_url, self.users))
 
-        try:
-            with open(filename, "r", encoding="utf-8") as f:
-                soup = BeautifulSoup(f, "html.parser")
-        except Exception:
-            self.init_browser()
-            soup = bot_backend.get_analysis_page(analysis_url, self.browser)
+    @register.error
+    async def register_error(self, ctx, e):
+        if isinstance(e, utils.InvalidLodestoneURL):
+            await ctx.send(
+                f"Got an invalid lodestone URL: `{e}`. Make sure you paste the "
+                "entire url - `!register https://<your_character_lodestone_url>`")
 
-            with open(filename, "w", encoding="utf-8") as f:
-                f.write(str(soup))
+        elif isinstance(e, utils.BadLodestonePageCode):
+            await ctx.send(f"God a bad response from lodestone: {e}. Is the "
+                           "website down?")
+            
+        elif isinstance(e, utils.WrongVerificationCode):
+            expected = "bothry-" + str(
+                sha256(str(ctx.message.author.id).encode('utf-8')).hexdigest())
+            await ctx.send(
+                "Did not find the correct code in your profile! It should've been:\n"
+                f"`{expected}`, but found\n`{e}`. Did you link the right profile?")
+        
+        elif isinstance(e, utils.MissingCode):
+            await ctx.send(
+                "No code starting with `bothry-` was found in the linked profile bio!"
+                f" The following was found in the bio:\n`{e}`")
 
-        analysis_result = bot_backend.get_analysis(
-            soup, analysis_url,
-            utils.ParseColor.ORANGE)
+        elif isinstance(e, utils.MultipleCodes):
+            await ctx.send(
+                f"Found multiple codes in the bio! The following was found:\n`{e}`")
+        
+        else:
+            raise e
 
-        await ctx.send(embed=analysis_result)
 
-    @commands.command()
-    async def test(self, ctx):
-        test_logs = {
-            "blm_log_url": "https://xivanalysis.com/fflogs/tzWm98Pa31khHRNY/1/10",
-            "rdm_log_url": "https://xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/1559",
-            "smn_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/1",
-            "dnc_log_url": "https://xivanalysis.com/fflogs/k7VvHCP38rqDFfQm/17/201",
-            "brd_log_url": "https://xivanalysis.com/fflogs/mjcBPQRw3DW2rnzG/8/300",
-            "mch_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/7",
-            "rpr_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/7",
-            "drg_log_url": "https://xivanalysis.com/fflogs/qfRP2HyVw7xN98kC/1/2",
-            "sam_log_url": "https://xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/1",
-            "nin_log_url": "https://xivanalysis.com/fflogs/1pW6XKy8CxZQfnb2/1/3",
-            "mnk_log_url": "https://xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/335",
-            "war_log_url": "https://xivanalysis.com/fflogs/T9KZGQRV2FfAgbYB/5/2",
-            "gnb_log_url": "https://xivanalysis.com/fflogs/aqK1tYgzQZLBn76f/2/46",
-            "pld_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/2",
-            "drk_log_url": "https://xivanalysis.com/fflogs/2ATn1cQdWF9hvpZz/25/3",
-            "whm_log_url": "https://xivanalysis.com/fflogs/Rj61r9ChBfpcVvYx/2/3",
-            "ast_log_url": "https://xivanalysis.com/fflogs/79xwHGQNagB1Rzc6/15/390",
-            "sge_log_url": "https://xivanalysis.com/fflogs/HJfrvwpP6LcNxFVY/9/4",
-            "sch_log_url": "https://xivanalysis.com/fflogs/nkb6KzwhTV7XJ8dC/123/445",
-        }
-
-        for job, url in test_logs.items():
-            await self.debug(ctx, url)
-
-    @commands.command()
-    async def latest(self, ctx, *, arg: Optional[str]):
+    @commands.command(
+        brief="Get your latest parse",
+        description="Gets the latest parse uploaded to fflogs. Right now it only"
+                    " looks at savage fights.")
+    async def latest(self, ctx, *,
+            arg: Optional[str]=commands.parameter(
+                default=None,
+                description="Set `a` to get analysis as well. You can also set a"
+                            " fight name to filter by specific fights. The order "
+                            "in which you specify the analysis/fight name does not"
+                            " matter. Example: `!latest a p12sp1`")):
         await self.get_fight_info(ctx, arg, "TIME")
 
-    @commands.command()
-    async def highest(self, ctx, *, arg: Optional[str]):
+    @commands.command(
+        brief="Get your highest parse",
+        description="Gets your highest parse uploaded to fflogs. Right now only "
+                    "savage fights are filtered."
+    )
+    async def highest(self, ctx, *,
+            arg: Optional[str]=commands.parameter(
+                default=None,
+                description="Set `a` to get analysis as well. You can also set a"
+                            " fight name to filter by specific fights. The order "
+                            "in which you specify the analysis/fight name does not"
+                            " matter. Example: `!highest a p12sp1`")):
         await self.get_fight_info(ctx, arg, "RANK")
 
     @highest.error
@@ -278,10 +335,16 @@ class Bothry(commands.Cog):
             )
         elif isinstance(error, utils.EncounterNotFound):
             await ctx.send(error)
+        elif isinstance(error, utils.UnregisteredUser):
+            await ctx.send(
+                "You haven't registered your character yet! Please run `!register`")
         else:
             raise Exception(str(error))
 
-    @commands.command()
+    @commands.command(
+        brief="Prints the registered character associated with your discord ID",
+        description="Prints the registered character associated with your discord ID"
+    )
     async def whoami(self, ctx):
         user = self.get_character(ctx)
         await ctx.send(f"Hi {user.firstname} {user.lastname} :hearts:!")

@@ -8,7 +8,7 @@ class User(object):
 
     def __str__(self):
         alts_str = "Alts: " + ('\n' + '\n'.join([str(v) for v in self.alts.values()]) if self.alts else "None")
-        return f"Primary: {self.primary}\n\n{alts_str}"
+        return f"Primary: {self.primary}\n{alts_str}"
 
     @staticmethod
     def initial_user(disc_id: int, fflogs_id: int, firstname: str,

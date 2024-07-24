@@ -69,21 +69,21 @@ ABILITIES = {
     "Collective Unconscious": ("<:bubble:1159756509266321540>", 3613),
     "Earthly Star": ("<:earthlystar:1159756749679640596>", 7439),
     "Macrocosmos": ("<:macro:1159756518212763648>", 25874),
-    "Arcane Crest": ("<:arcane_crest:1159999236226678915>", 24404),
-    "Magick Barrier": ("<:magic_barrier:1174972468725809172>", 25857),
-    "Triplecast": ("<:triple_cast:1174972465471029249>", 0),
+    "Arcane Crest": ("<:arcane_crest:1264079963213008897>", 24404),
+    "Magick Barrier": ("<:magic_barrier:1264077987922444339>", 25857),
+    "Triplecast": ("<:triple_cast:1264077195488526447>", 0),
     "Umbral Soul": ("<:umbral_soul:1174972466918068325>", 0),
-    "Radiant Aegis": ("<:radiant_aegis:1174973248732135494>", 25799),
+    "Radiant Aegis": ("<:radiant_aegis:1264078290893930507>", 25799),
     "Raging Strikes": ("<:raging_strikes:1174973684042190858>", 0),
-    "Nature's Minne": ("<:natures_minne:1174973685015269376>", 7408),
-    "Troubadour": ("<:troubadour:1174973686508437514>", 7405),
-    "Dismantle": ("<:dismantle:1174974182128369665>", 2887),
-    "Tactician": ("<:tactician:1174974183877394514>", 16889),
-    "Soulsow": ("<:soulsow:1174974956837273643>", 0),
-    "Death's Design": ("<:deaths_design:1174974957793574962>", 0),
+    "Nature's Minne": ("<:natures_minne:1264079974261063805>", 7408),
+    "Troubadour": ("<:troubadour:1264079982515458068>", 7405),
+    "Dismantle": ("<:dismantle:1264079967617024000>", 2887),
+    "Tactician": ("<:tactician:1264082652625899592>", 16889),
+    "Soulsow": ("<:soulsow:1264079978132275250>", 0),
+    "Death's Design": ("<:deaths_design:1264079966518120499>", 0),
     "Enshroud": ("<:enshroud:1174975337503932526>", 0),
-    "Arcane Circle": ("<:arcane_circle:1174975338611216394>", 0),
-    "Feint": ("<:feint:1174975723673505843>", 7549),
+    "Arcane Circle": ("<:arcane_circle:1264083885537493114>", 0),
+    "Feint": ("<:feint:1264079969890603078>", 7549),
     "Bloodbath": ("<:blood_bath:1174975724650766386>", 7542),
     "Battle Litany": ("<:battle_litany:1174976515658756206>", 0),
     "Nastrond": ("<:nastrond:1174976511883886592>", 0),
@@ -123,6 +123,7 @@ ABILITIES = {
     "Horoscope": ("<:hs:1174984854530707487>", 0),
     "Neutral Sect": ("<:neutral:1174984855927394325>", 0),
     "Infusion of Strength": ("<:strength_pot:1175010715225051136>", 0),
+    "Manafication": ("not implemented yet", 0)
 }
 
 class EncounterNotFound(commands.CommandError):
@@ -141,6 +142,21 @@ class VagueName(commands.CommandError):
     pass
 
 class InvalidParseNum(commands.CommandError):
+    pass
+
+class InvalidLodestoneURL(commands.CommandError):
+    pass
+
+class BadLodestonePageCode(commands.CommandError):
+    pass
+
+class WrongVerificationCode(commands.CommandError):
+    pass
+
+class MissingCode(commands.CommandError):
+    pass
+
+class MultipleCodes(commands.CommandError):
     pass
 
 class Encounter(Enum):
@@ -317,32 +333,45 @@ def parse_code_from_url(url: str):
 
 def gen_xivanalysis_url(code: str, fight_id: int, source_id: int):
     # return f"http://localhost:3000/fflogs/{code}/{fight_id}/{source_id}"
-    return f"https://xivanalysis.com/fflogs/{code}/{fight_id}/{source_id}"
+    return f"https://endwalker.xivanalysis.com/fflogs/{code}/{fight_id}/{source_id}"
 
 def gen_report_url(code: str, fight_id: int):
     return f"https://www.fflogs.com/reports/{code}#fight={fight_id}&type=damage-done"
 
 def get_lodestone_info(lodestone_url):
     if not lodestone_url.startswith("https"):
-        raise Exception("Input the full lodestone URL to your character.")
+        raise InvalidLodestoneURL(lodestone_url)
 
-    page = requests.get(lodestone_url)
-
+    try:
+        page = requests.get(lodestone_url)
+    except requests.exceptions.ConnectionError as e:
+        raise InvalidLodestoneURL(lodestone_url) from e
+    
     if page.status_code != 200:
-        raise Exception(
-            f"{page.status_code}: Couldn't find character at {lodestone_url}")
+        raise BadLodestonePageCode(page.status_code)
 
     username = unescape(
         page.text.split("<title>")[1].split('|')[0].rstrip()).split()
     region_list = page.text.split("\"Home World\"></i>")[1].split()
+    
+    bio = page.text.split("\"character__selfintroduction\">")[1].split("</div>")[0].split("<br />")
+    
+    bothry_lines = list(filter(
+        lambda line: line.startswith("bothry-"),
+        bio))
+
+    if not bothry_lines:
+        raise MissingCode("\n".join(bio))
+    
+    if len(bothry_lines) > 1:
+        raise MultipleCodes("\n".join(bothry_lines))
 
     return {
         "fname": username[0],
         "lname": username[1],
         "world": region_list[0],
         "dc": region_list[1][1:].split("]")[0],
-        "bio": page.text.split("\"character__selfintroduction\">")[1].split(
-            "</div>")[0],
+        "bio": bothry_lines[0],
         "lodestone_code": int(
             lodestone_url.split("character/")[1].partition('/')[0]),
     }
